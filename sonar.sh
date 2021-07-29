@@ -3,6 +3,7 @@
 pylint -ry *.py > pylint-report.txt
 coverage run -m pytest *.py
 coverage xml *.py
+cat coverage.xml
 
 sonar-scanner \
   -Dsonar.projectKey=localtest \
