@@ -28,6 +28,7 @@ jobs:
         run: |
           coverage run -m pytest *.py
           coverage xml *.py
+          cat coverage.xml
         continue-on-error: true
       - name: Analysing the code with pylint
         run: |
