@@ -28,9 +28,10 @@ jobs:
         run: |
           coverage run -m pytest *.py
           coverage xml *.py
+        continue-on-error: true
       - name: Analysing the code with pylint
         run: |
-          find . -name '*.py' -exec pylint >> pylint-report.txt {} \;
+          find . -name '*.py' -exec pylint -ry >> pylint-report.txt {} \;
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:

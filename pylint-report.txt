@@ -1,0 +1,163 @@
+************* Module bucket-stack
+bucket-stack.py:5:0: W0311: Bad indentation. Found 4 spaces, expected 2 (bad-indentation)
+bucket-stack.py:6:0: W0311: Bad indentation. Found 8 spaces, expected 4 (bad-indentation)
+bucket-stack.py:8:0: W0311: Bad indentation. Found 8 spaces, expected 4 (bad-indentation)
+bucket-stack.py:10:0: W0311: Bad indentation. Found 8 spaces, expected 4 (bad-indentation)
+bucket-stack.py:18:0: W0311: Bad indentation. Found 8 spaces, expected 4 (bad-indentation)
+bucket-stack.py:22:0: W0311: Bad indentation. Found 8 spaces, expected 4 (bad-indentation)
+bucket-stack.py:30:0: W0311: Bad indentation. Found 8 spaces, expected 4 (bad-indentation)
+bucket-stack.py:34:0: W0311: Bad indentation. Found 8 spaces, expected 4 (bad-indentation)
+bucket-stack.py:5:46: W0622: Redefining built-in 'id' (redefined-builtin)
+bucket-stack.py:1:0: W0611: Unused aws_s3 imported from aws_cdk (unused-import)
+************* Module s3-stack
+s3-stack.py:5:0: W0311: Bad indentation. Found 4 spaces, expected 2 (bad-indentation)
+s3-stack.py:6:0: W0311: Bad indentation. Found 8 spaces, expected 4 (bad-indentation)
+s3-stack.py:8:0: W0311: Bad indentation. Found 8 spaces, expected 4 (bad-indentation)
+s3-stack.py:10:0: W0311: Bad indentation. Found 8 spaces, expected 4 (bad-indentation)
+s3-stack.py:18:0: W0311: Bad indentation. Found 8 spaces, expected 4 (bad-indentation)
+s3-stack.py:22:0: W0311: Bad indentation. Found 8 spaces, expected 4 (bad-indentation)
+s3-stack.py:30:0: W0311: Bad indentation. Found 8 spaces, expected 4 (bad-indentation)
+s3-stack.py:34:0: W0311: Bad indentation. Found 8 spaces, expected 4 (bad-indentation)
+s3-stack.py:5:46: W0622: Redefining built-in 'id' (redefined-builtin)
+s3-stack.py:1:0: W0611: Unused aws_s3 imported from aws_cdk (unused-import)
+s3-stack.py:1:0: R0801: Similar lines in 2 files
+==bucket-stack:0
+==s3-stack:0
+from aws_cdk import core, aws_s3, aws_iam
+
+
+class SPPSAccessS3Stack(core.Stack):
+    def __init__(self, scope: core.Construct, id: str, **kwargs) -> None:
+        super().__init__(scope, id, **kwargs)
+
+        trusted_account = self.node.try_get_context("trusted_account")
+
+        _role_ro = aws_iam.Role(
+            self,
+            "PTV-SPPS-Support_RO",
+            assumed_by=aws_iam.AccountPrincipal(trusted_account),
+            role_name="PTV-SPPS-Support_RO",
+            description="PTV IDP Cross Account Access to allow R/O Access to all services",
+        )
+
+        _role_ro.add_managed_policy(
+            aws_iam.ManagedPolicy.from_aws_managed_policy_name("ReadOnlyAccess")
+        )
+
+        _role_rw = aws_iam.Role(
+            self,
+            "PTV-SPPS-Support_RW",
+            assumed_by=aws_iam.AccountPrincipal(trusted_account),
+            role_name="PTV-SPPS-Support_RW",
+            description="PTV IDP Cross Account Access to allow R/O Access to all services",
+        )
+
+        _role_rw.add_managed_policy(
+            aws_iam.ManagedPolicy.from_aws_managed_policy_name("ReadOnlyAccess")
+        )
+
+        _role_rw.add_managed_policy(
+            aws_iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3FullAccess")
+        ) (duplicate-code)
+
+
+Report
+======
+20 statements analysed.
+
+Statistics by type
+------------------
+
++---------+-------+-----------+-----------+------------+---------+
+|type     |number |old number |difference |%documented |%badname |
++=========+=======+===========+===========+============+=========+
+|module   |2      |NC         |NC         |0.00        |100.00   |
++---------+-------+-----------+-----------+------------+---------+
+|class    |2      |NC         |NC         |0.00        |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|method   |2      |NC         |NC         |100.00      |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|function |0      |NC         |NC         |0           |0        |
++---------+-------+-----------+-----------+------------+---------+
+
+
+
+Raw metrics
+-----------
+
++----------+-------+------+---------+-----------+
+|type      |number |%     |previous |difference |
++==========+=======+======+=========+===========+
+|code      |56     |73.68 |NC       |NC         |
++----------+-------+------+---------+-----------+
+|docstring |4      |5.26  |NC       |NC         |
++----------+-------+------+---------+-----------+
+|comment   |0      |0.00  |NC       |NC         |
++----------+-------+------+---------+-----------+
+|empty     |16     |21.05 |NC       |NC         |
++----------+-------+------+---------+-----------+
+
+
+
+Duplication
+-----------
+
++-------------------------+------+---------+-----------+
+|                         |now   |previous |difference |
++=========================+======+=========+===========+
+|nb duplicated lines      |0     |NC       |NC         |
++-------------------------+------+---------+-----------+
+|percent duplicated lines |0.000 |NC       |NC         |
++-------------------------+------+---------+-----------+
+
+
+
+Messages by category
+--------------------
+
++-----------+-------+---------+-----------+
+|type       |number |previous |difference |
++===========+=======+=========+===========+
+|convention |0      |NC       |NC         |
++-----------+-------+---------+-----------+
+|refactor   |0      |NC       |NC         |
++-----------+-------+---------+-----------+
+|warning    |20     |NC       |NC         |
++-----------+-------+---------+-----------+
+|error      |0      |NC       |NC         |
++-----------+-------+---------+-----------+
+
+
+
+% errors / warnings by module
+-----------------------------
+
++-------------+------+--------+---------+-----------+
+|module       |error |warning |refactor |convention |
++=============+======+========+=========+===========+
+|s3-stack     |0.00  |50.00   |0.00     |0.00       |
++-------------+------+--------+---------+-----------+
+|bucket-stack |0.00  |50.00   |0.00     |0.00       |
++-------------+------+--------+---------+-----------+
+
+
+
+Messages
+--------
+
++------------------+------------+
+|message id        |occurrences |
++==================+============+
+|bad-indentation   |16          |
++------------------+------------+
+|unused-import     |2           |
++------------------+------------+
+|redefined-builtin |2           |
++------------------+------------+
+
+
+
+
+-----------------------------------
+Your code has been rated at 0.00/10
+
