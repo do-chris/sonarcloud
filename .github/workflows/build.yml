@@ -26,6 +26,14 @@ jobs:
           find . -name '*.py' -exec pylint >> pylint-report.txt {} \;
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
+        with:
+          args: >
+            -Dsonar.organization=do-chris
+            -Dsonar.projectKey=do-chris_sonarcloud
+            -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.sources=.
+            -Dsonar.verbose=true
+            -Dsonar.python.pylint.reportPaths=pylint-report.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
