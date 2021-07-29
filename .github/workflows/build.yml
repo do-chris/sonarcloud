@@ -28,9 +28,11 @@ jobs:
       - name: Create coverage
         run: |
           coverage run -m pytest *.py
+        continue-on-error: true
+      - name: Create coverage xml
+        run: |
           coverage xml *.py
           cat coverage.xml
-        continue-on-error: true
       - name: Analysing the code with pylint
         run: |
           find . -name '*.py' -exec pylint -ry >> pylint-report.txt {} \;
