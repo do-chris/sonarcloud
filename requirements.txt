@@ -2,4 +2,3 @@ aws-cdk.core
 aws-cdk.aws_s3
 aws-cdk.aws_iam
 requests
-json
