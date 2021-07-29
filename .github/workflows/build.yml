@@ -23,6 +23,7 @@ jobs:
           pip install pylint
           pip install coverage
           pip install pytest
+          pip install -r requirements.txt
       - name: Create coverage
         run: |
           coverage run -m pytest *.py
