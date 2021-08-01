@@ -28,12 +28,10 @@ jobs:
           find . -name '*.py' -exec pylint -ry >> pylint-report.txt {} \;
       - uses: actions/upload-artifact@master
         with:
-          name: coverage.xml
-          path: ./coverage.xml
-      - uses: actions/upload-artifact@master
-        with:
-          name: pylint-report.txt
-          path: ./pylint-report.txt
+          name: coverage-report
+          path: |
+            ./coverage.xml
+            ./pylint-report.txt
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
@@ -42,17 +40,15 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0 
-      - uses: actions/download-artifact@v2
+      - name: Retrieve coverage reports
+        uses: actions/download-artifact@v2
         with:
-          name: coverage.xml
-          path: ./coverage.xml
-      - uses: actions/download-artifact@v2
-        with:
-          name: pylint-report.txt
-          path: ./pylint-report.txt
+          name: coverage-report
+          path: |
+            coverage.xml
+            pylint-report.txt
       - name: Display coverage reports
         run: |
-          cat coverage.xml
           cat pylint-report.txt
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
