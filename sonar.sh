@@ -1,17 +1,31 @@
 #!/bin/bash
 
+pip3 install -r requirements.txt
 pylint -ry *.py > pylint-report.txt
-coverage run -m pytest *.py
-coverage xml *.py
+python3-coverage run -m pytest *.py
+python3-coverage xml *.py
 
-sonar-scanner \
-  -Dsonar.projectKey=localtest \
-  -Dsonar.sources=. \
-  -Dsonar.host.url=http://localhost:9000 \
-  -Dsonar.python.coverage.reportPaths=coverage.xml \
-  -Dsonar.python.pylint.reportPaths=pylint-report.txt \
-  -Dsonar.login=5f3deea7af9e3fa788d8f423129aa60e433b81cf
+# Create sonar scanner settings
+echo "
+# Local sonar-scanner settings
+sonar.projectKey=local
+sonar.sources=.
+sonar.python.coverage.reportPaths=coverage.xml
+sonar.python.pylint.reportPaths=pylint-report.txt
+sonar.host.url=http://10.1.1.201:9000
+" > sonar-project.properties
 
-rm -rf pylint-report.txt
-rm -rf .coverage coverage.xml
-rm -rf __py*
+# Run solar-scanner cli via docker
+docker run \
+  --rm \
+  -e SONAR_HOST_URL="http://10.1.1.201:9000" \
+  -e SONAR_LOGIN="ae4c07529b09c567ac92e74bd504f1799d82939a" \
+  -v "${PWD}:/usr/src" \
+  sonarsource/sonar-scanner-cli
+
+# Cleanup
+rm -rf \
+  pylint-report.txt \
+  .coverage coverage.xml \
+  sonar-project.properties \
+  __py*
