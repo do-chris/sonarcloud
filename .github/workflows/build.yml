@@ -29,9 +29,7 @@ jobs:
       - uses: actions/upload-artifact@master
         with:
           name: coverage-report
-          path: |
-            ./coverage.xml
-            ./pylint-report.txt
+          path: ./coverage.xml
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
@@ -45,7 +43,6 @@ jobs:
       - name: Display coverage reports
         run: |
           cat coverage.xml
-          cat pylint-report.txt
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:                                                                                           
