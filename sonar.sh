@@ -1,6 +1,11 @@
 #!/bin/bash
 
-docker run -it --rm -v ${PWD}:/src -w /src -e host_uid=${UID} python bash python-test.sh
+# Generate pylint and coverage xml
+docker run -it --rm \
+  -v ${PWD}:/src \
+  -w /src \
+  -e host_uid=${UID} \
+  python bash python-test.sh
 
 # Create sonar scanner settings
 echo "

@@ -6,13 +6,12 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
-  sonarcloud:
-    name: SonarCloud
+  python-tests:
+    name: PythonTest
     runs-on: ubuntu-latest
+    container: python:latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 
       - name: Set up Python 3.8
         uses: actions/setup-python@v1
         with:
@@ -20,9 +19,6 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pylint
-          pip install coverage
-          pip install pytest
           pip install -r requirements.txt
       - name: Create coverage
         run: |
@@ -34,6 +30,26 @@ jobs:
         run: |
           find . -name '*.py' -exec pylint -ry >> pylint-report.txt {} \;
           cat pylint-report.txt
+      - uses: actions/upload-artifact@master
+        with:
+          name: coverage-report
+          path: |
+            coverage.xml
+            pylint-report.txt
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 
+      - name: Retrieve coverage reports
+        uses: actions/download-artifact@v2
+        with:
+          name: coverage-report
+          path: |
+            coverage.xml
+            pylint-report.txt
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:                                                                                           
