@@ -44,9 +44,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: coverage-report
-          path: |
-            coverage.xml
-            pylint-report.txt
+          path: .
       - name: Display coverage reports
         run: |
           cat pylint-report.txt
