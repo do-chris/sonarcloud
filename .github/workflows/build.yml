@@ -30,22 +30,18 @@ jobs:
         with:
           name: coverage-report
           path: |
-            coverage.xml
-            pylint-report.txt
+            ./coverage.xml
+            ./pylint-report.txt
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
+    needs: PythonTest
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0 
       - name: Retrieve coverage reports
         uses: actions/download-artifact@v2
-        with:
-          name: coverage-report
-          path: |
-            coverage.xml
-            pylint-report.txt
       - name: Display coverage reports
         run: |
           cat coverage.xml
