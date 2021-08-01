@@ -28,7 +28,7 @@ jobs:
           find . -name '*.py' -exec pylint -ry >> pylint-report.txt {} \;
       - uses: actions/upload-artifact@master
         with:
-          name: coverage,xml
+          name: coverage.xml
           path: ./coverage.xml
       - uses: actions/upload-artifact@master
         with:
