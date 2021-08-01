@@ -1,9 +1,6 @@
 #!/bin/bash
 
-pip3 install -r requirements.txt
-pylint -ry *.py > pylint-report.txt
-python3-coverage run -m pytest *.py
-python3-coverage xml *.py
+docker run -it --rm -v ${PWD}:/src -w /src -e host_uid=${UID} python bash python-test.sh
 
 # Create sonar scanner settings
 echo "
@@ -16,8 +13,7 @@ sonar.host.url=http://10.1.1.201:9000
 " > sonar-project.properties
 
 # Run solar-scanner cli via docker
-docker run \
-  --rm \
+docker run --rm \
   -e SONAR_HOST_URL="http://10.1.1.201:9000" \
   -e SONAR_LOGIN="ae4c07529b09c567ac92e74bd504f1799d82939a" \
   -v "${PWD}:/usr/src" \
